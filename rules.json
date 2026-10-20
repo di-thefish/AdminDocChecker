@@ -1,0 +1,27 @@
+{
+  // Quy tắc thể thức dựa trên Phụ lục I, Nghị định 30/2020/NĐ-CP.
+  // Hãy đối chiếu với văn bản hiện hành và chỉnh các giá trị ở đây khi quy định thay đổi.
+  "pageWidthMm": 210,
+  "pageHeightMm": 297,
+  "pageToleranceMm": 1,
+
+  "marginTopMm":    { "min": 20, "max": 25 },
+  "marginBottomMm": { "min": 20, "max": 25 },
+  "marginLeftMm":   { "min": 30, "max": 35 },
+  "marginRightMm":  { "min": 15, "max": 20 },
+
+  "fontName": "Times New Roman",
+  "fontSizePt": { "min": 12, "max": 14 },
+
+  "nationalTitle": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+  "motto": "Độc lập - Tự do - Hạnh phúc",
+  "recipientsLabel": "Nơi nhận:",
+
+  "fix": {
+    "top": 20,
+    "bottom": 20,
+    "left": 30,
+    "right": 15,
+    "fontSizePt": 14
+  }
+}

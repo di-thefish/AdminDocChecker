@@ -1,0 +1,84 @@
+<Window x:Class="AdminDocChecker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Kiểm tra thể thức văn bản hành chính"
+        Height="660" Width="1020" MinHeight="480" MinWidth="780"
+        WindowStartupLocation="CenterScreen" FontSize="14">
+
+    <Window.Resources>
+        <Style x:Key="WrapCell" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="4,3"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Button x:Name="BrowseButton" DockPanel.Dock="Right" Content="Chọn tệp .docx..."
+                    Padding="14,6" Margin="8,0,0,0" Click="Browse_Click"/>
+            <TextBox x:Name="PathBox" IsReadOnly="True" Padding="6"
+                     VerticalContentAlignment="Center"/>
+        </DockPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,0">
+            <CheckBox x:Name="SpellCheck" Content="Kiểm tra chính tả bằng AI (cần Ollama)"
+                      VerticalAlignment="Center" Margin="0,0,16,0"/>
+            <TextBlock Text="Mô hình:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <TextBox x:Name="ModelBox" Text="qwen2.5:3b" Width="150" Padding="4"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,10">
+            <Button x:Name="CheckButton" Content="Kiểm tra" Padding="22,6"
+                    Margin="0,0,8,0" Click="Check_Click"/>
+            <Button x:Name="FixButton" Content="Sửa thể thức, lưu bản sao..." Padding="18,6"
+                    IsEnabled="False" Click="Fix_Click"/>
+            <ProgressBar x:Name="BusyBar" Width="140" Height="10" Margin="14,0,0,0"
+                         IsIndeterminate="True" Visibility="Collapsed"/>
+        </StackPanel>
+
+        <TabControl Grid.Row="3">
+            <TabItem Header="Kết quả kiểm tra">
+                <DataGrid x:Name="IssuesGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                          CanUserAddRows="False" HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal" AlternatingRowBackground="#FAFAFA">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mức" Binding="{Binding LevelText}" Width="85"/>
+                        <DataGridTextColumn Header="Vị trí" Binding="{Binding Location}" Width="140"
+                                            ElementStyle="{StaticResource WrapCell}"/>
+                        <DataGridTextColumn Header="Vấn đề" Binding="{Binding Message}" Width="*"
+                                            ElementStyle="{StaticResource WrapCell}"/>
+                        <DataGridTextColumn Header="Gợi ý sửa" Binding="{Binding Suggestion}" Width="*"
+                                            ElementStyle="{StaticResource WrapCell}"/>
+                        <DataGridTextColumn Header="Tự sửa" Binding="{Binding FixText}" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Lịch sử">
+                <DataGrid x:Name="HistoryGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                          CanUserAddRows="False" HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Thời gian" Binding="{Binding CheckedAt}" Width="150"/>
+                        <DataGridTextColumn Header="Tệp" Binding="{Binding FilePath}" Width="*"
+                                            ElementStyle="{StaticResource WrapCell}"/>
+                        <DataGridTextColumn Header="Lỗi" Binding="{Binding Errors}" Width="70"/>
+                        <DataGridTextColumn Header="Cảnh báo" Binding="{Binding Warnings}" Width="90"/>
+                        <DataGridTextColumn Header="Chính tả AI" Binding="{Binding Spell}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <TextBlock x:Name="StatusText" Grid.Row="4" Margin="0,8,0,0"
+                   Text="Chọn một tệp .docx để bắt đầu."/>
+    </Grid>
+</Window>
